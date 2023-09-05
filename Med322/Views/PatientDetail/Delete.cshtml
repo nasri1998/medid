@@ -1,0 +1,67 @@
+﻿@using Med322.ViewModels;
+@model VMPatientDetail
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-header h3">@ViewBag.Title</div>
+    <div class="card-body">
+        Delete Patient @Model.Fullname xx? @Model.CustomerMemberId
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            &nbsp;
+            <form asp-action="Delete" method="post" id="frmDeletePatient">
+                <input type="hidden" name="DeletedBy" value="@Model.UserId" />
+                <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+                <input type="hidden" name="BiodataId" value="@Model.BiodataId" />
+                <input type="hidden" name="CustomerMemberId" value="@Model.CustomerMemberId" />
+                
+
+                <div>
+                    <button class="btn btn-sm btn-danger" type="submit"><i class="ti-trash"></i> Yes</button>
+                    <button type="button" id="btnCancel" class="btn btn-sm btn-success"><i class="ti-close"></i> No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+    $("#frmDeletePatient").validate({
+        submitHandler: function (form) {
+            debugger;
+
+            // Posisi "if" disini
+            $.ajax({
+                url: "/PatientDetail/Delete",
+                type: "post",
+                data: $(form).serialize(),
+                dataType: "json",
+                beforeSend: function () {
+                    // Proses sebelum memanggil Controller
+                },
+                success: function (apiResponse) {
+                    // Proses setelah Controller selesai
+                    if (apiResponse.success) {
+                        location.reload();
+                    } else {
+                        alert(apiResponse.message)
+                    }
+                },
+                error: function (errResponse) {
+                    // Proses ketika controller terjadi kesalahan
+                    alert("Failed to proceed");
+                }
+            });
+        }
+    });
+
+</script>

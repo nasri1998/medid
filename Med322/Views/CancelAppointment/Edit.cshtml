@@ -1,0 +1,122 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model VMListEdit
+
+<form id="frmEditPatient" method="post" asp-action="Edit" asp-controller="CancelAppointment">
+    <input type="hidden" name="modifiedby" value="@Model.userid" />
+    <input type="hidden" name="custid" value="@Model.custid" />
+    <input type="hidden" name="dokoftreatid" value="@Model.dokoftreatid" />
+    <input type="hidden" name="dokofscheid" value="@Model.dokofscheid" />
+    <input type="hidden" name="dokofid" value="@Model.dokofid" />
+    
+
+    <div class="card">
+        <div class="card-header h3">@Model.dokname</div>
+        <div class="card-body">
+            <div class="row">
+                <label class="form-label">Konsultasi Untuk *</label>
+                <select name="namapasien" disabled="true">
+                    <option value="@Model.id" >@Model.namapasien, @Model.namarelasi</option>
+                </select>
+            </div>
+            <div class="row">
+                <label class="form-label">Faskes *</label>
+                <select name="namafaskes" disabled="true">
+                    <option value="@Model.namafaskes">@Model.namafaskes</option>
+                </select>
+            </div>
+            <div class="row">
+               
+                <label class="form-label">Waktu Kedatangan</label>
+                <input class="form-control" type="date" name="appdate" value="@Model.appdate?.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="row">
+                <label class="form-label">Tindakan Medis</label>
+                <div class="form-group" disabled>
+                    <select name="tindakanmedis">
+                        
+                        @foreach (VMTDoctorTreatment item in ViewBag.Treatment)
+                        {
+                            if(item.Id == Model.doktreatid)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else{
+
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+            </div>
+            <button type="submit" class="btn btn-sm btn-success"><i class="ti-save"></i> Save</button>
+            <button type="button" id="btnCancel" class="btn btn-sm btn-success"><i class="ti-close"></i> Cancel</button>
+        </div>
+    </div>
+</form>
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+
+    $("#frmEditPatient").validate({
+        rules: {
+            Fullname: {
+                minlength: 3,
+                maxlength: 50,
+                required: true
+            },
+            Dob: {
+                required: true,
+                date: true,
+                maxDate: true // Menggunakan aturan maxDate yang baru kita definisikan
+            },
+        },
+        errorClass: "text-danger"
+    });
+
+    $(document).ready(function () {
+        // Validasi formulir menggunakan jQuery Validate
+        $("#frmEditPatient").validate();
+
+        // Mengirimkan formulir melalui Ajax saat disubmit
+        $("#frmEditPatient").submit(function (event) {
+            event.preventDefault(); // Mencegah pengiriman formulir default
+
+            if ($("#frmEditPatient").valid()) {
+                // Mengambil data formulir
+                var formData = new FormData($(this)[0]);
+
+                // Mengirim data melalui Ajax
+                $.ajax({
+                    url: '/CancelAppointment/Edit/', // Ubah sesuai dengan URL endpoint Add di Controller Anda
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Tidak memproses data secara otomatis
+                    contentType: false, // Tidak mengatur tipe konten secara otomatis
+                    success: function (apiResponse) {
+                        if (apiResponse.success) {
+                            // Redirect ke halaman yang sesuai setelah berhasil menambahkan data
+                            window.location.href = '@Url.Action("Index")'; // Ubah sesuai dengan URL yang benar
+                        } else {
+                            // Tampilkan pesan kesalahan jika ada
+                            alert(apiResponse.message);
+                        }
+                    },
+                    error: function (errResponse) {
+                        alert("Submit Failed");
+                    }
+                });
+            }
+        });
+    });
+</script>

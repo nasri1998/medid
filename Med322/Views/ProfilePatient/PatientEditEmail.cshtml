@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model VMUser
+<form id="frmUpdateEmail" method="post" asp-action="PatientEditEmail" asp-controller="ProfilePatient">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="ModifiedBy" value=2 />
+    <h4 class="title text-primary mb-4">Edit Email</h4>
+    <div class="form mb-3">
+        <label for="email">Email*</label>
+        <input type="text" class="form-control" name="Email" value="@Model.Email" />
+    </div>
+    <button type="submit" class="btn btn-primary me-2">Submit</button>
+    <button id="No" type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+</form>
+
+<script>
+    $("#No").click(function () {
+        $("#myModal").modal("hide");
+    });
+
+    $("#frmUpdateEmail").validate({
+        rules:
+        {
+            Email: {
+                email: true,
+                required: true,
+            }
+        },
+        errorClass: "text-danger",
+        messages:
+        {
+            Fullname: {
+                required: "Email harus diisi",
+                email: "Masukan email yang valid"
+            }
+        },
+        submitHandler: function (form) {
+            alert("tes");
+
+            $.ajax({
+                url: "ProfilePatient/PatientEditEmail",
+                type: "Post",
+                data: $(form).serialize(), //data teks
+                dataType: "json", //diubah ke json
+                beforeSend: function () {
+                    //proses sebelum memanggil controller
+                },
+                success: function (apiResponse) {
+                    //debugger;
+                    alert(apiResponse.message);
+                    location.reload();
+                    //if (apiResponse.success) { location.reload(); alert(apiResponse.message); }
+                    //else { alert(apiResponse.message); location.reload(); } //menjadi huruf kecil semua
+
+                }, //proses setelah memanggil kontroler
+                error: function (errResponse) {
+                    //debugger;
+                    alert("Update Email failed!");
+                    location.reload()
+                    //  $("#myModalLg").modal("hide");
+                } //proses ketika terjadi kesalahan
+            });
+        }
+    });
+</script>

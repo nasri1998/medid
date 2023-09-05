@@ -1,0 +1,117 @@
+﻿@using Med322.Models;
+@using Med322.ViewModels;
+
+@model PaginationModel<VMTblMBloodGroup>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="card">
+    <div class="card-header h3 d-flex justify-content-between">
+        @ViewBag.Title
+    </div>
+    <div class="card-body">
+        <form id="frmFindData" asp-action="ViewDataBlood" asp-controller="Admin">
+            <input type="hidden" name="orderby" value="@ViewBag.OrderBy" />
+            <div class="d-flex justify-content-between mb-3">
+                <button id="btnAdd" type="button" class="btn btn-success btn-sm"><i class="ti-plus"></i></button>
+                <div class="input-group w-50">
+                    <input id="txtFilter" name="Filter" placeholder="Find..." class="form-control" value="@ViewBag.Filter" />
+                    <div class="input-group-append">
+                        <span id="btnFilter" type="button" class="btn btn-sm btn-primary"><i class="ti-search form-control-icon"></i></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @*<th class="col-1"><a asp-action="ViewDataBlood" asp-route-filter="@ViewBag.Filter" asp-controller="Admin" asp-route-orderby="@ViewBag.OrderID">ID</a></th>*@
+                    <th class="col-3"><a asp-action="ViewDataBlood" asp-route-filter="@ViewBag.Filter" asp-controller="Admin" asp-route-orderby="@ViewBag.OrderCode">Code</a></th>
+                    <th class="col">Description</th>
+                    <th class="col">ModifiedBy</th>
+                    <th class="col-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (VMTblMBloodGroup data in Model)
+                {
+                    <tr>
+                        @*<td>@data.Id</td>*@
+                        <td>@data.Code</td>
+                        <td>@data.Description</td>
+                        <td>@data.Fullname</td>
+                        <td>
+                            @*<button data-bloodid="@data.Id" class="btn btnDetails btn-sm btn-info btn-icon" title="Details..."><i class="ti-info"></i></button>*@
+                            <button data-bloodid="@data.Id" class="btn btnEdit btn-sm btn-success btn-icon" title="Edit..."><i class="ti-pencil"></i></button>
+                            <button data-bloodid="@data.Id" class="btn btnDelete btn-sm btn-danger btn-icon" title="Delete..."><i class="ti-eraser"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            @*<tfoot>
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <div class="btn-group btn-rounded">
+                            <a asp-action="ViewDataBlood" asp-controller="Admin" title="Previous Page..." class="btn btn-primary btn-circle @(Model.PageIndex < 2? "disabled" : "")"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-orderby="@ViewBag.OrderBy"
+                               asp-route-pageNumber="@(Model.PageIndex <= 1? Model.PageIndex : Model.PageIndex-1)">
+                                <i class="ti-control-backward"></i>
+                            </a>
+                            <span class="input-group-text">page @Model.PageIndex of @Model.TotalPages</span>
+                            <a asp-action="ViewDataBlood" asp-controller="Admin" title="Next Page..." class="btn btn-primary btn-circle @(Model.PageIndex >= Model.TotalPages? "disabled" : "")"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-orderby="@ViewBag.OrderBy"
+                               asp-route-pageNumber="@(Model.PageIndex == Model.TotalPages ? Model.PageIndex : Model.PageIndex+1)">
+                                <i class="ti-control-forward"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>*@
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        
+        $("#btnAdd").click(function () {
+            debugger;
+            $("#myModalBody").load("/Admin/AddBlood");
+            $("#myModal").modal("show");
+        });
+
+        $(".btnDetails").click(function () {
+    @{
+        ViewBag.Title = "Blood Group Info";
+    }
+            var bloodId = $(this).data("bloodid");
+            
+            $("#myModalBodyLg").load("/Admin/DetailBlood/" + bloodId);
+            $("#myModalLg").modal("show");
+        });
+
+        $(".btnEdit").click(function () {
+            var bloodId = $(this).data("bloodid");
+    
+        $("#myModalBody").load("/Admin/EditBlood/" + bloodId);
+            $("#myModal").modal("show");
+        });
+
+        $(".btnDelete").click(function () {
+            var bloodId = $(this).data("bloodid");
+    
+            $("#myModalBody").load("/Admin/DeleteBlood/" + bloodId);
+            $("#myModal").modal("show");
+        });
+
+        $("#btnFilter").click(function () {
+            $("#frmFindData").submit();
+        });
+    });
+</script>

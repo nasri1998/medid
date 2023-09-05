@@ -1,0 +1,90 @@
+﻿@using Med322.Models;
+@using Med322.ViewModels;
+@model PaginationModel<VMLocation>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@*<div class="card">
+    <div class="card-header h3 d-flex justify-content-between">
+        @ViewBag.Title
+    </div>
+    <div class="card-body">
+        <form id="frmfindloc" asp-action="LocationIndex" asp-controller="Admin">
+            <input type="hidden" name="orderby" value="@ViewBag.OrderBy" />
+            <div class="d-flex justify-content-between mb-3">
+                <button id="btnAdd" type="button" class="btn btn-success btn-sm"><i class="ti-plus"></i></button>
+                <div class="input-group w-50">
+                    <input id="txtFilter" name="Filter" placeholder="Find..." class="form-control" value="@ViewBag.Filter" />
+                    <div class="input-group-append">
+                        <span id="btnFilter" type="button" class="btn btn-primary"><i class="ti-search form-control-icon"></i></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-1"><a asp-action="LocationIndex" asp-route-filter="@ViewBag.Filter" asp-controller="Admin" asp-route-orderby="@ViewBag.OrderID">Nama</a></th>
+                    <th class="col-3"><a asp-action="LocationIndex" asp-route-filter="@ViewBag.Filter" asp-controller="Admin" asp-route-orderby="@ViewBag.OrderCode">Level Lokasi</a></th>
+                    <th class="col-6">Wilayah</th>
+                    <th class="col-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (VMLocation data in Model)
+                {
+                    <tr>
+                        <td>@data.Name</td>
+                        <td>@data.NameLocationLevel</td>
+                        <td>@data.Wilayah</td>
+                        <td>
+                            <button data-locid="@data.Id" class="btn btnEdit btn-sm btn-success btn-icon" title="Edit..."><i class="ti-pencil"></i></button>
+                            <button data-locid="@data.Id" class="btn btnDelete btn-sm btn-danger btn-icon" title="Delete..."><i class="ti-eraser"></i></button>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <div class="btn-group btn-rounded">
+                            <a asp-action="ViewDataBlood" asp-controller="Admin" title="Previous Page..." class="btn btn-primary btn-circle @(Model.PageIndex < 2? "disabled" : "")"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-orderby="@ViewBag.OrderBy"
+                               asp-route-pageNumber="@(Model.PageIndex <= 1? Model.PageIndex : Model.PageIndex-1)">
+                                <i class="ti-control-backward"></i>
+                            </a>
+                            <span class="input-group-text">page @Model.PageIndex of @Model.TotalPages</span>
+                            <a asp-action="ViewDataBlood" asp-controller="Admin" title="Next Page..." class="btn btn-primary btn-circle @(Model.PageIndex >= Model.TotalPages? "disabled" : "")"
+                               asp-route-filter="@ViewBag.Filter"
+                               asp-route-orderby="@ViewBag.OrderBy"
+                               asp-route-pageNumber="@(Model.PageIndex == Model.TotalPages ? Model.PageIndex : Model.PageIndex+1)">
+                                <i class="ti-control-forward"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $(".btnEdit").click(function () {
+            var locId = $(this).data("locid");
+            debugger;
+            $("#myModalBodyLg").load("/Admin/EditLocation/" + locId);
+            $("#myModalLg").modal("show");
+        });
+
+        
+    });
+</script>*@

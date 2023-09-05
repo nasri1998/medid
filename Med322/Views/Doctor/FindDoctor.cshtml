@@ -1,0 +1,96 @@
+﻿@using Med322.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+@model VMViewFindDoctor
+
+<form id="searchDoctor" method="post" asp-controller="Doctor" asp-action="FindDoctor">
+    <div class="card">
+        <div class="card-header h3">Cari Dokter</div>
+        <div class="card-body">
+            <div class="row">
+                <label class="form-label">Lokasi</label>
+                <select class="form-control" name="filterLocationId">
+                    <option value="">--Pilih Lokasi--</option>
+                    @foreach (VMLocation location in ViewBag.Location)
+                    {
+                        if (@ViewBag.LocId == @location.Id)
+                        {
+                            <option value="@location.Id" selected>@location.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@location.Id">@location.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="row">
+                <label class="form-label">Nama Dokter</label>
+                @if (ViewBag.Name != null)
+                {
+                    <input class="form-control" type="text" name="filterDoctor" value="@ViewBag.Name"></input>
+                }
+                else
+                {
+                    <input class="form-control" type="text" name="filterDoctor"></input>
+                }
+            </div>
+            <div class="row">
+                <label class="form-label">Spesialisasi*</label>
+                <select class="form-control" name="filterSpecialization">
+                    <option value="">--Pilih Spesialisasi--</option>
+                    @foreach (VMMDoctorProfile specialization in ViewBag.Specialization)
+                    {
+                        if (ViewBag.Spez == specialization.specializationName)
+                        {
+                            <option value="@specialization.specializationName" selected>@specialization.specializationName</option>
+                        }
+                        else
+                        {
+                            <option value="@specialization.specializationName">@specialization.specializationName</option>                            
+                        }
+                    }
+                </select>
+            </div>
+            <div class="row">
+                <label class="form-label">Tindakan Medis</label>
+                <select class="form-control" name="filterTreatmentId">
+                    <option value="">--Pilih tindakan--</option>
+                    @foreach (VMTDoctorTreatment treatment in ViewBag.Treatment)
+                    {
+                        if (ViewBag.TreatId == treatment.Id)
+                        {
+                            <option value="@treatment.Id" selected>@treatment.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@treatment.Id">@treatment.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <button type="submit" class="btn btn-info float-end"><i class="ti-search"></i> Cari</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#searchDoctor").validate({
+        rules:{
+            filterSpecialization: "required",
+        },
+        errorClass: "text-danger",
+        messages: {
+            filterSpecialization: "Masukan spesialisasi",
+        }
+    })
+</script>

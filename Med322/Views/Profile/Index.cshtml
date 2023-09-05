@@ -1,0 +1,362 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "_ProfileSharedLayout";
+}
+@if (ViewBag.User == "Patient")
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="text-center pb-4">
+                                <img src="~/skydash/images/samples/300x300/12.jpg" alt="profile" class="img-lg rounded-circle mb-3">
+                                <div class="mb-3">
+                                    <h3 id="Nama">Pasien</h3>
+                                    <h5 id="Role" class="mb-0 me-2 text-muted">Canada</h5>
+                                    <ul class="nav nav-tabs nav-tabs-vertical" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="home-tab-vertical" data-bs-toggle="tab" href="#home-2" role="tab" aria-controls="home-2" aria-selected="true">
+                                                Pasien
+                                                <i class="ti-user text-danger ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="profile-tab-vertical" data-bs-toggle="tab" href="#profile-2" role="tab" aria-controls="profile-2" aria-selected="false">
+                                                Pembelian Obat
+                                                <i class="ti-home text-info ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                Rencana Kedatangan
+                                                <i class="ti-email text-success ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                Riwayat Chat Dokter
+                                                <i class="ti-email text-success ms-2"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home-1" role="tab" aria-controls="home-1" aria-selected="true">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile-1" role="tab" aria-controls="profile-1" aria-selected="false">Alamat</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact-1" role="tab" aria-controls="contact-1" aria-selected="false">Pembayaran</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="home-1" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="media">
+                                        <img class="me-3 w-25 rounded" src="../../../../images/samples/300x300/13.jpg" alt="sample image">
+                                        <div class="media-body">
+                                            <h4 class="mt-0">Why choose us?</h4>
+                                            <p>
+                                                ini pasien 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="media">
+                                        <img class="me-3 w-25 rounded" src="../../../../images/faces/face12.jpg" alt="sample image">
+                                        <div class="media-body">
+                                            <h4 class="mt-0">John Doe</h4>
+                                            <p>
+                                                Fail most room even gone her end like. Comparison dissimilar unpleasant six compliment two unpleasing
+                                                any add. Ashamed my company thought wishing colonel it prevent he in. Pretended residence are something
+                                                far engrossed old off.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
+                                    <h4>Contact us </h4>
+                                    <p>
+                                        Feel free to contact us if you have any questions!
+                                    </p>
+                                    <p>
+                                        <i class="ti-headphone-alt text-info"></i>
+                                        +123456789
+                                    </p>
+                                    <p>
+                                        <i class="ti-email text-success"></i>
+                                        contactus@example.com
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="profile-feed">
+                                <div>Tes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (ViewBag.User == "Doctor")
+{
+    <div class="row">
+        <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="text-center pb-4">
+                                    <img src="~/skydash/images/samples/300x300/12.jpg" alt="profile" class="img-lg rounded-circle mb-3">
+                                    <div class="mb-3">
+                                        <h3 id="Nama">Dokter</h3>
+                                        <h5 id="Role" class="mb-0 me-2 text-muted">Canada</h5>
+                                        <ul class="nav nav-tabs nav-tabs-vertical" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="home-tab-vertical" data-bs-toggle="tab" href="#home-2" role="tab" aria-controls="home-2" aria-selected="true">
+                                                    Pasien
+                                                    <i class="ti-user text-danger ms-2"></i>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="profile-tab-vertical" data-bs-toggle="tab" href="#profile-2" role="tab" aria-controls="profile-2" aria-selected="false">
+                                                    Pembelian Obat
+                                                    <i class="ti-home text-info ms-2"></i>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                    Rencana Kedatangan
+                                                    <i class="ti-email text-success ms-2"></i>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                    Riwayat Chat Dokter
+                                                    <i class="ti-email text-success ms-2"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home-1" role="tab" aria-controls="home-1" aria-selected="true">Profil</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile-1" role="tab" aria-controls="profile-1" aria-selected="false">Alamat</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact-1" role="tab" aria-controls="contact-1" aria-selected="false">Pembayaran</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade active show" id="home-1" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="media">
+                                            <img class="me-3 w-25 rounded" src="../../../../images/samples/300x300/13.jpg" alt="sample image">
+                                            <div class="media-body">
+                                                <h4 class="mt-0">Why choose us?</h4>
+                                                <p>
+                                                    ini dokter
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="media">
+                                            <img class="me-3 w-25 rounded" src="../../../../images/faces/face12.jpg" alt="sample image">
+                                            <div class="media-body">
+                                                <h4 class="mt-0">John Doe</h4>
+                                                <p>
+                                                    Fail most room even gone her end like. Comparison dissimilar unpleasant six compliment two unpleasing
+                                                    any add. Ashamed my company thought wishing colonel it prevent he in. Pretended residence are something
+                                                    far engrossed old off.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
+                                        <h4>Contact us </h4>
+                                        <p>
+                                            Feel free to contact us if you have any questions!
+                                        </p>
+                                        <p>
+                                            <i class="ti-headphone-alt text-info"></i>
+                                            +123456789
+                                        </p>
+                                        <p>
+                                            <i class="ti-email text-success"></i>
+                                            contactus@example.com
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+}
+else if (ViewBag.User == "Admin")
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="text-center pb-4">
+                                <img src="~/skydash/images/samples/300x300/12.jpg" alt="profile" class="img-lg rounded-circle mb-3">
+                                <div class="mb-3">
+                                    <h3 id="Nama">Admin</h3>
+                                    <h5 id="Role" class="mb-0 me-2 text-muted">Canada</h5>
+                                    <ul class="nav nav-tabs nav-tabs-vertical" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="home-tab-vertical" data-bs-toggle="tab" href="#home-2" role="tab" aria-controls="home-2" aria-selected="true">
+                                                Pasien
+                                                <i class="ti-user text-danger ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="profile-tab-vertical" data-bs-toggle="tab" href="#profile-2" role="tab" aria-controls="profile-2" aria-selected="false">
+                                                Pembelian Obat
+                                                <i class="ti-home text-info ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                Rencana Kedatangan
+                                                <i class="ti-email text-success ms-2"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                Riwayat Chat Dokter
+                                                <i class="ti-email text-success ms-2"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home-1" role="tab" aria-controls="home-1" aria-selected="true">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile-1" role="tab" aria-controls="profile-1" aria-selected="false">Alamat</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact-1" role="tab" aria-controls="contact-1" aria-selected="false">Pembayaran</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="editwilayah-tab" data-bs-toggle="tab" href="#editwilayah-1" role="tab" aria-controls="editwilayah-1" aria-selected="false">Edit Wilayah</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="home-1" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="media">
+                                        <img class="me-3 w-25 rounded" src="../../../../images/samples/300x300/13.jpg" alt="sample image">
+                                        <div class="media-body">
+                                            <h4 class="mt-0">Why choose us?</h4>
+                                            <p>
+                                                Far curiosity incommode now led smallness allowance. Favour bed assure son things yet. She consisted
+                                                consulted elsewhere happiness disposing household any old the. Widow downs you new shade drift hopes
+                                                small. So otherwise commanded sweetness we improving. Instantly by daughters resembled unwilling principle
+                                                so middleton.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="media">
+                                        <img class="me-3 w-25 rounded" src="../../../../images/faces/face12.jpg" alt="sample image">
+                                        <div class="media-body">
+                                            <h4 class="mt-0">John Doe</h4>
+                                            <p>
+                                                Fail most room even gone her end like. Comparison dissimilar unpleasant six compliment two unpleasing
+                                                any add. Ashamed my company thought wishing colonel it prevent he in. Pretended residence are something
+                                                far engrossed old off.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
+                                    <h4>Contact us </h4>
+                                    <p>
+                                        Feel free to contact us if you have any questions!
+                                    </p>
+                                    <p>
+                                        <i class="ti-headphone-alt text-info"></i>
+                                        +123456789
+                                    </p>
+                                    <p>
+                                        <i class="ti-email text-success"></i>
+                                        contactus@example.com
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="editwilayah-1" role="tabpanel" aria-labelledby="editwilayah-tab">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Tambah Lokasi</h4>
+                                            
+                                            <form class="forms-sample">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Level Lokasi</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-control" id="exampleInputUsername2" aria-label="Level Lokasi">
+                                                            <option selected>Open this select menu</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Wilayah</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-control" id="exampleInputUsername2" aria-label="Level Lokasi">
+                                                            <option selected>Open this select menu</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="exampleInputMobile" class="col-sm-3 col-form-label">Nama</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                                                    </div>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                                    <button class="btn btn-light">Cancel</button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

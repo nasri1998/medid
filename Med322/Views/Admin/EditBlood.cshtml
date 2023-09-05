@@ -1,0 +1,88 @@
+﻿@using Med322.ViewModels;
+@model VMTblMBloodGroup
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<form id="frmEditBlood" method="post" asp-action="Edit">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="ModifiedBy" value="2" />
+    <div class="card">
+        <div class="card-header h3">Edit @Model.Code Info</div>
+        <div class="card-body">
+            <div class="row">
+                <label class="form-label">Code</label>
+                <input class="form-control" type="text" name="Code" value="@Model.Code" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label class="form-label">Description</label>
+                <input class="form-control" type="text" name="Description" value="@Model.Description" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <div>
+                    <button type="submit" class="btn btn-sm btn-success"><i class="ti-save"></i> Save</button>
+                    <button type="button" id="btnCancel" class="btn btn-sm btn-warning"><i class="ti-close"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+    $("#frmEditBlood").validate({
+        rules: {
+            Code: {
+                minlength: 1,
+                maxlength: 2,
+                required: true
+            }
+        },
+        errorClass: "text-danger",
+        messages: {
+            Code: {
+                required: "Blood Code must be filled!",
+                maxlength: "3 characters max."
+            }
+        },
+        submitHandler: function (form) {
+            //debugger;
+            if (confirm("Blood Group will be edited.."))
+                $.ajax({
+                    url: "/Admin/EditBlood/",
+                    type: "post",
+                    data: $(form).serialize(),
+                    dataType: "json",
+                    beforeSend: function () {
+                        // Proses sebelum memanggil Controller
+                    },
+                    success: function (apiResponse) {
+                        // Proses setelah Controller selesai
+                        if (apiResponse.success) {
+                            location.reload();
+                        } else {
+                            $("#frmEditBlood").validate().showErrors({
+                                "Code": apiResponse.message // Memperbaiki properti "Code"
+                            });
+                        }
+                    },
+                    error: function (errResponse) {
+                        // Proses ketika controller terjadi kesalahan
+                        alert("Failed to Procceed");
+
+                    }
+                });
+            else
+                return false;
+        },
+        errorClass: "text-danger"
+    });
+</script>

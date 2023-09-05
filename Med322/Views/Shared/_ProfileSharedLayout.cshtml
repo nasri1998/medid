@@ -1,0 +1,247 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.User = Context.Session.GetString("RoleName") ?? "Guest";
+
+    ViewBag.UserName = Context.Session.GetString("FullName") ?? "Guest";
+
+    if (Context.Session.GetString("FullName") == "Guest" && Context.Session.GetString("RoleName") != "Guest")
+    {
+        ViewBag.UserName = Context.Session.GetString("RoleName");
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<partial name="_Header" />
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo mr-5" asp-action="Index" asp-controller="@ViewBag.User"><img src="~/Images/Logo.png" class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" asp-action="Index" asp-controller="@ViewBag.User"><img src="~/Images/LogoMini.png" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                @if (ViewBag.User != "Guest")
+                {
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="icon-menu"></span>
+                    </button>
+                }
+                <ul class="navbar-nav mr-lg-2">
+                    <li class="nav-item nav-search d-none d-lg-block">
+                        <div class="input-group">
+                            <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                                <span class="input-group-text" id="search">
+                                    <i class="icon-search"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Cari Dokter atau Obat" aria-label="search" aria-describedby="search">
+                        </div>
+                    </li>
+                </ul>
+
+                @if (ViewBag.User != "Guest")
+                {
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item">
+                            <div>Hello, @ViewBag.UserName</div>
+                        </li>
+                        <li class="nav-item nav-profile dropdown">
+                            <a class="nav-link dropdown-toggle" href="/ProfileMenu" data-toggle="dropdown" id="profileDropdown">
+                                <img src="~/skydash/images/faces/face28.jpg" alt="profile" />
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                @if (ViewBag.User == "Patient")
+                                {
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="ProfilePatient">
+                                        <i class="ti-user text-primary"></i>
+                                        Profile
+                                    </a>
+                                }
+                                else if (ViewBag.User == "Doctor")
+                                {
+                                    <a class="dropdown-item" asp-action="Profile" asp-controller="Doctor">
+                                        <i class="ti-user text-primary"></i>
+                                        Profile
+                                    </a>
+                                }
+                                <a class="dropdown-item">
+                                    <i class="ti-power-off text-primary"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="Login" class="btn btn-info btn-rounded btn-md mr-2">Masuk</a>
+                            <a asp-action="SignIn" asp-controller="Login" class="btn btn-secondary btn-rounded btn-md">Daftar</a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <partial name="_Modal" />
+            <!-- partial:partials/_settings-panel.html -->
+            <!-- partial:partials/_sidebar.html -->
+            @if (@ViewBag.User != "Guest")
+            {
+                <partial name="_Sidebar" />
+            }
+            <!-- partial -->
+            <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="text-center pb-4">
+                                                    <img src="~/skydash/images/samples/300x300/12.jpg" alt="profile" class="img-lg rounded-circle mb-3">
+                                                    <div class="mb-3">
+                                                        <h3 id="Nama">David Grey. H</h3>
+                                                        <h5 id="Role" class="mb-0 me-2 text-muted">Canada</h5>
+                                                    <ul class="nav nav-tabs nav-tabs-vertical" role="tablist">
+                                                        <li class="nav-item">
+                                                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="PatientDetail">Pasien</a></li>
+                                                        
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="profile-tab-vertical" data-bs-toggle="tab" href="#profile-2" role="tab" aria-controls="profile-2" aria-selected="false">
+                                                                Pembelian Obat
+                                                                <i class="ti-home text-info ms-2"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" asp-action="Index" asp-controller="CancelAppointment">Rencana Kedatangan   <i class="ti-email text-success ms-2"></i></a>
+                                                              
+                                                        </li>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="contact-tab-vertical" data-bs-toggle="tab" href="#contact-2" role="tab" aria-controls="contact-2" aria-selected="false">
+                                                                Riwayat Chat Dokter
+                                                                <i class="ti-email text-success ms-2"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                            @if (ViewBag.User == "Patient")
+                                            {
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" asp-action="Index" asp-controller="ProfilePatient" role="tab" aria-controls="home-1" aria-selected="true">Profil</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" asp-action="Index" asp-controller="Profile" role="tab" aria-controls="profile-1" aria-selected="false">Alamat</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" asp-action="Index" asp-controller="Profile" role="tab" aria-controls="contact-1" aria-selected="false">Pembayaran</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    @RenderBody()
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home-1" role="tab" aria-controls="home-1" aria-selected="true">Profil</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile-1" role="tab" aria-controls="profile-1" aria-selected="false">Alamat</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact-1" role="tab" aria-controls="contact-1" aria-selected="false">Pembayaran</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade active show" id="home-1" role="tabpanel" aria-labelledby="home-tab">
+                                                        <div class="media">
+                                                            <img class="me-3 w-25 rounded" src="../../../../images/samples/300x300/13.jpg" alt="sample image">
+                                                            <div class="media-body">
+                                                                <h4 class="mt-0">Why choose us?</h4>
+                                                                <p>
+                                                                    Far curiosity incommode now led smallness allowance. Favour bed assure son things yet. She consisted
+                                                                    consulted elsewhere happiness disposing household any old the. Widow downs you new shade drift hopes
+                                                                    small. So otherwise commanded sweetness we improving. Instantly by daughters resembled unwilling principle
+                                                                    so middleton.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
+                                                        <div class="media">
+                                                            <img class="me-3 w-25 rounded" src="../../../../images/faces/face12.jpg" alt="sample image">
+                                                            <div class="media-body">
+                                                                <h4 class="mt-0">John Doe</h4>
+                                                                <p>
+                                                                    Fail most room even gone her end like. Comparison dissimilar unpleasant six compliment two unpleasing
+                                                                    any add. Ashamed my company thought wishing colonel it prevent he in. Pretended residence are something
+                                                                    far engrossed old off.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
+                                                        <h4>Contact us </h4>
+                                                        <p>
+                                                            Feel free to contact us if you have any questions!
+                                                        </p>
+                                                        <p>
+                                                            <i class="ti-headphone-alt text-info"></i>
+                                                            +123456789
+                                                        </p>
+                                                        <p>
+                                                            <i class="ti-email text-success"></i>
+                                                            contactus@example.com
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="profile-feed">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- content-wrapper ends -->
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                    </div>
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <partial name="_JqueryPlugin" />
+</body>
+
+
+
+
+</html>

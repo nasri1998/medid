@@ -1,0 +1,101 @@
+﻿@using Med322.ViewModels;
+@model VMBiodata
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<form id="frmEditImage" method="post" asp-asp-controller="Doctor" asp-action="EditImage" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id"></input>
+    <input type="hidden" name="UpdateBy" value="2"></input>
+    <input type="hidden" name="ImagePath" value="@Model.ImagePath"></input>
+    <div class="card">
+        <div class="card-header h3">Edit</div>
+        <div class="card-body">
+            <div class="text-center">
+                <label for="fImage" class="form-label">Image</label>
+                <input type="file" id="fImage" name="ImageFile" class="form-control"></input>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <button type="submit" class="btn btn-success float-end"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#frmEditImage").validate({
+        rules: {
+            ImagePath: {
+                required: true
+            }
+        }//,
+        //submitHandler: function (form) {
+        //        if (confirm("done edit?"))
+        //        var doctorId = $(this).data("doctorid")
+        //            $.ajax({
+        //            url: "/Doctor/specialization",
+        //                type: "post",
+        //                data: $(form).serialize,
+        //                dataType: "json",
+        //                beforeSend: function() {},
+        //                success: function(apiResponse) {
+        //                    debugger;
+        //                    if (apiResponse.success) {
+        //                    location.load();
+        //                    }
+        //                    else{
+        //                        alert(apiResponse.message);
+        //                    }
+        //                },
+        //                error: function (errResponse){
+        //                    alert("Edit failed");
+        //                    $("#myModal").modal("hide");
+        //                }
+        //            })
+        //        else
+        //            return false;
+        //    }
+    });
+
+    $("#frmEditImage").submit(function (event) {
+        if ($("#frmEditImage").valid()) {
+            var formData = new FormData($(this)[0]);
+
+            event.preventDefault();
+            debugger
+            $.ajax({
+                url: "../EditImage",
+                type: "post",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+
+                },
+                success: function (apiResponse) {
+                    debugger;
+                    if (apiResponse.success) {
+                        $("#myModal").modal("hide");
+                        $("#myModalBody").load("../confirmation")
+                        $("#myModal").modal("show");
+                    }
+                    else {
+                        alert(apiResponse.message)
+                    }
+                },
+                error: function (errResponse) {
+                    debugger;
+                    alert("page error");
+                    $("myModal").modal("hide");
+                }
+            });
+        }
+    });
+</script>

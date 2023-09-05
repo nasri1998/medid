@@ -1,0 +1,201 @@
+﻿@using Med322.ViewModels;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@model List<VMMDoctorProfile>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center pb-10">
+                <div class="col-lg-4 text-center">
+                    <div class="container">
+                        <img src="~/images/@(Model.FirstOrDefault().ImagePath?? "sample_user.jpg")" class="img-thumbnail w-75">
+                        <button data-doctorid="@Model.FirstOrDefault().Id" class="btn btnImage py-0"><i class="ti-pencil"></i>Edit</button>
+                        </img>
+                    </div>
+                    <hr>
+                    <div data-doctorid="@Model.FirstOrDefault().Id" id="janji" class=" d-flex justify-content-between px-5">
+                        Janji
+                        <span>@ViewBag.Appo</span>
+                    </div>
+                    <hr>
+                    <div div data-doctorid="@Model.FirstOrDefault().Id" id="janji" class=" d-flex justify-content-between px-5">
+                        Konsultasi
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+                <div class="col-xl-6 text-center">
+                    <div class="h2">@Model.FirstOrDefault().Fullname</div>
+                    <div>&nbsp;</div>
+                    <div class="h3">Spesialis @Model.FirstOrDefault().specializationName</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row p-10">
+                <div class="col-xl-5">
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Tindakan</div>
+                        <hr>
+                        <ul>
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.treatmentId))
+                            {
+                                <div class="h6 mb-1">@doctor.treatmentName</div>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Riwayat bekerja</div>
+                        <hr>
+                        <ul class="mb-0">
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.MedicalFacilityId).OrderByDescending(q => q.StartDate))
+                            {
+                                <div class="h6 mb-0">
+                                    @doctor.MedicalFacilityName
+                                </div>
+                                <div class="row d-flex justify-content-between mx-0 mb-2">
+                                    <div>@doctor.location</div>
+                                    @if (@doctor.EndDate == null)
+                                    {
+                                        <div class="col-6 text-right px-0">@doctor.StartDate.Value.Year - Sekarang</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-6 text-right px-0">
+                                            @doctor.StartDate.Value.Year
+                                            - @doctor.EndDate.Value.Year
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Pendidikan</div>
+                        <hr>
+                        <ul>
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.InstitutionName).OrderByDescending(q => q.edEndYear))
+                            {
+                                <div class="h6 mb-0">@doctor.InstitutionName</div>
+                                <div class="row d-flex justify-content-between mx-0 mb-2">
+                                    <div>@doctor.Major</div>
+                                    <div>@doctor.edEndYear</div>
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link  active" id="spesialis-tab" data-bs-toggle="tab" href="#spesialis" role="tab" aria-controls="spesialis" aria-selected="true">Spesialisasi</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="konsultasi-tab" data-bs-toggle="tab" href="#konsultasi" role="tab" aria-controls="konsultasi" aria-selected="false">Konsultasi</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tindakan-tab" data-bs-toggle="tab" href="#tindakan" role="tab" aria-controls="tindakan" aria-selected="false">Tindakan</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="aktivitas-tab" data-bs-toggle="tab" href="#aktivitas" role="tab" aria-controls="aktivitas" aria-selected="false">Aktivitas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pengaturan-tab" data-bs-toggle="tab" href="#pengaturan" role="tab" aria-controls="contact" aria-selected="false">Pengaturan</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content px-10 py-20">
+                                <div class="tab-pane fade active show" id="spesialis" role="tabpanel" aria-labelledby="home-tab">
+                                    @*<div class="media">*@
+                                    @if (ViewBag.CurtSpez == null)
+                                    {
+                                        <div class="row d-flex justify-content-between px-2">
+                                            <div>Belum menambahkan spesialisasi</div>
+                                            @if (ViewBag.User == "Doctor" || ViewBag.User == "Admin")
+                                            {
+                                                <div><button data-doctorid="@Model.FirstOrDefault().Id" type="button" class="btn btn-primary btnAdd btn-sm"><i class="ti-plus"></i></button></div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row d-flex justify-content-between px-2">
+                                            <div>@ViewBag.CurtSpez</div>
+                                            @if (ViewBag.User == "Doctor" || ViewBag.User == "Admin")
+                                            {
+                                                <div><button data-doctorid="@Model.FirstOrDefault().Id" type="button" class="btn btn-primary btnEdit btn-sm"><i class="ti-pencil-alt"></i></button></div>
+                                            }
+                                        </div>
+                                    }
+                                    @*</div>*@
+                                </div>
+                                <div class="tab-pane fade" id="konsultasi" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="media">
+                                        <div class="row align-self-end justify-content-between">
+                                            <div class="col-9">halaman ini belum ditentukan --- belum ditentukan ---</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tindakan" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="media">
+                                        <div class="row align-self-end justify-content-between">
+                                            <div class="col-9">halaman ini belum ditentukan --- belum ditentukan ---</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="aktivitas" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="media">
+                                        <div class="row align-self-end justify-content-between">
+                                            <div class="col-9">halaman ini belum ditentukan --- belum ditentukan ---</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pengaturan" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="media">
+                                        <div class="row align-self-end justify-content-between">
+                                            <div class="col-9">halaman ini belum ditentukan --- belum ditentukan ---</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".btnEdit").click(function () {
+        var doctorId = $(this).data("doctorid");
+        $("#myModalBody").load("../EditSpecialization/" + doctorId)
+        $("#myModal").modal("show");
+    })
+
+    $(".btnAdd").click(function () {
+        var doctorId = $(this).data("doctorid");
+        $("#myModalBody").load("../AddSpecialization/" + doctorId)
+        $("#myModal").modal("show");
+    })
+
+    $(".btnImage").click(function () {
+        debugger;
+        var doctorId = $(this).data("doctorid");
+        $("#myModalBody").load("../EditImage/" + doctorId)
+        $("#myModal").modal("show");
+    })
+
+    $("#janji").click(function() {
+        var doctorId = $(this).data("doctorid");
+        $("#myModalBodyLg").load("../ListAppointment/" + doctorId)
+        $("#myModalLg").modal("show");
+    })
+    
+</script>

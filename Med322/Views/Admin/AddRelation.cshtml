@@ -1,0 +1,83 @@
+﻿@using Med322.ViewModels;
+@model VMTblMCustomerRelation
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<form id="frmNewRelate" method="post" asp-action="Add">
+    <input type="hidden" name="CreatedBy" value="1" />
+    <div class="card">
+        <div class="card-header h3">Insert New Family Data</div>
+        <div class="card-body">
+            <div class="row">
+                <label class="form-label">Name</label>
+                <input class="form-control" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <div>
+                    <button type="submit" class="btn btn-sm btn-success"><i class="ti-save"></i> Save</button>
+                    <button type="button" id="btnCancel" class="btn btn-sm btn-warning"><i class="ti-close"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+    $("#frmNewRelate").validate({
+        rules: {
+            Name: {
+                minlength: 1,
+                maxlength: 50,
+                required: true
+            }
+        },
+        errorClass: "text-danger",
+        messages: {
+            Name: {
+                required: "Family name must be filled!",
+                maxlength: "50 characters max."
+            }
+        },
+        submitHandler: function (form) {
+            if (confirm("New Family Data will be submit..."))
+                $.ajax({
+                    url: "/Admin/AddRelation/",
+                    type: "post",
+                    data: $(form).serialize(),
+                    dataType: "json",
+                    beforeSend: function () {
+                        // Proses sebelum memanggil Controller
+                    },
+                    success: function (apiResponse) {
+                        debugger
+                        // Proses setelah Controller selesai
+                        if (apiResponse.success) {
+                            location.reload();
+                        }
+                        else {
+                            $("#frmNewRelate").validate().showErrors({
+                                "Name": apiResponse.message // Memperbaiki properti "Code"
+                            });
+                        }
+                    },
+                    error: function (errResponse) {
+                        debugger;
+                        // Proses ketika Controller terjadi kesalahan
+                        alert("Add new Family process Failed!");
+                    }
+                });
+            else
+                return false;
+        }
+    });
+</script>

@@ -1,0 +1,100 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model VMPatientProfile
+
+<form id="frmUpdateBio" method="post" asp-action="PatientEditBio" asp-controller="ProfilePatient">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="ModifiedBy" value=2 />
+    <h4 class="title text-primary mb-4">Edit Biodata</h4>
+    <div class="form-group">
+        <label for="fullName">Nama Lengkap*</label>
+        <input type="text" class="form-control" name="Fullname" value="@Model.Fullname" />
+    </div>
+    <div class="form-group">
+        <label for="Dob">Tanggal Lahir*</label>
+        <input type="date" class="form-control" name="Dob" value="@string.Format("{0:yyyy-MM-dd}", Model.Dob)" />
+    </div>
+    <div class="form-group">
+        <label for="mobilePhone">No Telepon*</label>
+        <input type="text" class="form-control" name="MobilePhone" value="@Model.MobilePhone" />
+    </div>
+    <button type="submit" class="btn btn-primary me-2">Submit</button>
+    <button id="No" type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+</form>
+
+<script>
+
+    $("#No").click(function () {
+        $("#myModal").modal("hide");
+    });
+
+
+    $("#frmUpdateBio").validate({
+        rules:
+        {
+            Fullname: {
+                minlength: 3,
+                maxlength: 255,
+                required: true
+            },
+            Dob: {
+                required: true
+            },
+            MobilePhone: {
+                number: true,
+                minlength: 8,
+                required: true
+            }
+
+        },
+        errorClass: "text-danger",
+        messages:
+        {
+            Fullname: {
+                required: "Nama harus diisi",
+                minlength: "Minimal harus 3 character"
+            },
+            Dob: {
+                required: "Tanggal harus diisi",
+            },
+            MobilePhone: {
+                number: "Harus diisi no telepon yang sesuai",
+                minlength: "Harus diisi no telepon",
+                required: "No telepon harus diisi"
+            }
+        },
+        submitHandler: function (form) {
+            alert("tes");
+
+            $.ajax({
+                url: "ProfilePatient/PatientEditBio",
+                type: "Post",
+                data: $(form).serialize(), //data teks
+                dataType: "json", //diubah ke json
+                beforeSend: function () {
+                    //proses sebelum memanggil controller
+                },
+                success: function (apiResponse) {
+                    //debugger;
+                    alert(apiResponse.message);
+                    location.reload();
+                    //if (apiResponse.success) { location.reload(); alert(apiResponse.message); }
+                    //else { alert(apiResponse.message); location.reload(); } //menjadi huruf kecil semua
+
+                }, //proses setelah memanggil kontroler
+                error: function (errResponse) {
+                    //debugger;
+                    alert("Update Category failed!");
+                    location.reload()
+                    //  $("#myModalLg").modal("hide");
+                } //proses ketika terjadi kesalahan
+            });
+        }
+    });
+       
+
+</script>

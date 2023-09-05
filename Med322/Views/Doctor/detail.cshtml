@@ -1,0 +1,158 @@
+﻿@using Med322.ViewModels;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var detailRS = ViewBag.Detail;
+}
+
+@model List<VMMDoctorProfile>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row align-items-center pb-10">
+                <div class="col-lg-4 text-center">
+                    <div class="container">
+                        <img src="~/images/@(Model.FirstOrDefault().ImagePath?? "sample_user.jpg")" class="rounded-circle w-50"></img>
+                    </div>                                      
+                </div>
+                <div class="col-xl-6 text-left p-0">
+                    <div class="h3 m-0">@Model.FirstOrDefault().Fullname</div>
+                    <div class="font-weight-normal px-2">Spesialis @Model.FirstOrDefault().specializationName</div>
+                    <div class="font-weight-normal px-2">@ViewBag.exper tahun pengalaman</div>
+                </div>
+                <div class="col-xl-2 text-center p-0">
+                    <div><button type="button" class="btn btn-info">Chat dokter</button></div>
+                    <div class="text-black-50"><p class="small">Rp 30000</p></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="card-body">
+            <div class="row p-10">
+                <div class="col-xl-4">
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Tindakan</div>
+                        <hr>
+                        <ul class="border-info">
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.treatmentId))
+                            {
+                                <div class="h6 mb-1">@doctor.treatmentName</div>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Riwayat Praktek</div>
+                        <hr>
+                        <ul class="mb-0">
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.MedicalFacilityId).OrderByDescending(q => q.StartDate))
+                            {
+                                <div class="h6 mb-0">
+                                    @doctor.MedicalFacilityName
+                                </div>
+                                <div class="row d-flex justify-content-between mx-0 mb-2">
+                                    <div>@doctor.location</div>
+                                    @if (@doctor.EndDate == null)
+                                    {
+                                        <div class="col-6 text-right px-0">@doctor.StartDate.Value.Year - Sekarang</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-6 text-right px-0">
+                                            @doctor.StartDate.Value.Year
+                                            - @doctor.EndDate.Value.Year
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center bg-info text-white">Pendidikan</div>
+                        <hr>
+                        <ul>
+                            @foreach (VMMDoctorProfile doctor in Model.DistinctBy(p => p.InstitutionName).OrderByDescending(q => q.edEndYear))
+                            {
+                                <div class="h6 mb-0">@doctor.InstitutionName</div>
+                                <div class="row d-flex justify-content-between mx-0 mb-2">
+                                    <div>@doctor.Major</div>
+                                    <div>@doctor.edEndYear</div>
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-left bg-info text-white">Lokasi Praktek</div>
+                            @*tabel praktek mulai dari sini*@
+                            @foreach(VMDoctorDetail det in ViewBag.DetailRS)
+                            {
+                                <table id="table-@det.OfficeId" class="table my-2" style="border: 1px solid">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-8">
+                                                <div>@det.MedicalFacilityName</div>
+                                                <div class="font-weight-normal pl-3">@det.MedicalFacilityCategoryName</div>
+                                                <div class="small pl-3"><i class="ti-map-alt"></i> @det.MedicalFacilityAddress</div>
+                                            </th>
+                                                <th class="col-4 text-center font-weight-normal">
+                                                <div class="pb-2">Harga mulai dari</div>
+                                                <div>Rp @det.PriceStartFrom</div>
+                                            </th>
+                                        </tr>                                        
+                                    </thead>
+                                    <tbody>
+                                        <tr class="py-1">
+                                            <td class="text-blue"><button data-officeid="@det.OfficeId" id="@det.OfficeId" class="btn btn-link tombol">Lihat jadwal praktek</button></td>
+                                            <td id="@det.OfficeId" class="list-group list-group-flush appo" style="display :none">
+                                                <button type="button" class="btn btn-sm btn-info">buat janji</button>
+                                            </td>
+                                        </tr>
+                                        <tr id="@det.OfficeId" class="list-group list-group-flush jadwal" style="display :none">
+                                            <td>
+                                                <ul style="">
+                                                    @foreach (VMDoctorDetail hr in ((List<VMDoctorDetail>)ViewBag.Detail).Where(rs => rs.MedicalFacilityName == det.MedicalFacilityName).DistinctBy(d => d.OfficeScheduleDay))
+                                                    {
+                                                        <div>
+                                                            <div class="row pb-1">
+                                                                <div class="col-4">
+                                                                    @hr.OfficeScheduleDay
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    @hr.OfficeScheduleStart - @hr.OfficeScheduleEnd
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </ul>                                                
+                                            </td>                                        
+                                        </tr>
+                                    </tbody>
+                                </table>                       
+                            }
+                            @*tabel praktek selesai*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".tombol").click(function () {
+        var officeId = $(this).data("officeid");        
+        if ($("#" + officeId + ".tombol").text() == "Lihat jadwal praktek") {
+            $("#" + officeId + ".tombol").html("Tutup jadwal");
+        }
+        else{
+            $("#" + officeId + ".tombol").html("Lihat jadwal praktek");
+        }
+        $("#table-" + officeId + " tr.jadwal").toggle(300);
+        $("td#" + officeId + ".appo").toggle(300);
+
+    })
+</script>

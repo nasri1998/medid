@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@if (ViewBag.User == "Admin")
+{
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#Menu-1" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Pasien</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="Menu-1">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" asp-action="ViewDataRelation" asp-controller="Admin">Family Relation</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="ViewDataBlood" asp-controller="Admin">Blood Group</a></li>
+                    </ul>
+                </div>
+            </li>
+        <!-- ... other menu items ... -->
+        
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Menu-2" aria-expanded="false" aria-controls="ui-basic">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Menu 2</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Menu-2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 1</a></li>
+                    <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 2</a></li>
+                    <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 3</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    </nav>
+}
+@if (ViewBag.User == "Doctor")
+{
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#Menu-1" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Menu Doctor</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="Menu-1">
+                    <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Doctor"><i class="ti-back-left"></i></a></li>
+                        @*<li class="nav-item"> <a class="nav-link" asp-action="ViewDataBlood" asp-controller="Admin">Blood Group</a></li>*@
+                    </ul>
+                </div>
+            </li>
+            <!-- ... other menu items ... -->
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#Menu-2" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Menu 2</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="Menu-2">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 1</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 2</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 3</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+}
+
+@if (ViewBag.User == "Patient")
+{
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            
+           @* <li class="nav-item">
+            <li class="nav-item"> <a class="nav-link" asp-action="ViewDataRelation" asp-controller="Admin">Family Relation</a></li>
+                @*<div class="collapse" id="Menu-1">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 1</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 2</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 3</a></li>
+                    </ul>
+                </div>*@
+            @*</li>*@
+            
+            <!-- ... other menu items ... -->
+
+            <li class="nav-item">
+                <div class="collapse" id="Menu-2">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 1</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 2</a></li>
+                        <li class="nav-item"> <a class="nav-link" asp-action="Index" asp-controller="Guest">Menu Item 3</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+}

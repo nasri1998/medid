@@ -1,0 +1,40 @@
+﻿@using Med322.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+@model List<VMDoctorAppointment>
+
+<div class="card">
+    <div class="card-header h3 d-flex justify-content-between">Jadwal Janji</div>
+    <div class="card-header">
+        <table class="table table-info table-striped">
+            <thead class="bg-pink-200">
+                <tr>
+                    <th>Pasien</th>
+                    <th>Lokasi Praktik</th>
+                    <th>Jenis Treatment</th>
+                    <th>Hari</th>
+                    <th>Sesi</th>
+                    <th>Tanggal janji</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (VMDoctorAppointment appointment in Model)
+                {
+                    <tr>
+                        <td>@appointment.CustomerName</td>
+                        <td>@appointment.OfficeName</td>
+                        <td>@appointment.TreatmentName</td>
+                        <td>@appointment.DayName</td>
+                        <td>@appointment.StartHour - @appointment.EndHour</td>
+                        <td>@appointment.AppointmentDate.GetValueOrDefault().ToString("d MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

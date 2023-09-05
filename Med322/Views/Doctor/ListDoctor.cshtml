@@ -1,0 +1,111 @@
+﻿@using Med322.ViewModels;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+}
+
+@model List<VMViewFindDoctor>;
+
+<div class="row d-flex justify-content-between">
+    <div class="col-6">
+        <h4>
+            Hasil pencarian berdasarkan kata kunci :
+            @if (ViewBag.LocId > 0)
+            {
+                <div>Lokasi : @ViewBag.Loc</div>
+            }
+            @if (@ViewBag.Name != null)
+            {
+                <div>Nama dokter: @ViewBag.Name</div>
+            }
+            @if (@ViewBag.Spez != null)
+            {
+                <div>Spesialisasi : @ViewBag.Spez</div>
+            }
+            @if (@ViewBag.TreatId > 0)
+            {
+                <div>Tindakan : @ViewBag.Treat</div>
+            }
+
+        </h4>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" class="btn btn-outline-primary float-end" id="findAgain">Ulangi Pencarian</button>
+    </div>
+</div>
+@*<div class="row">
+    <div class="col-12">*@
+        <div class="row">
+            @foreach (VMViewFindDoctor doctor in Model.DistinctBy(p => p.DoctorId))
+            {
+                <div class="card col-6">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-lg-4">
+                                <a asp-action="profile" asp-controller="Doctor" asp-route-id="@doctor.Id" class="text-decoration-none"></a>
+                                <div><img class="card-img-top img-fluid col-12" src="~/images/@(doctor.ImagePath ?? "sample_user.jpg")" alt="Card image cap" style="width: 250px; height: 100px;"></div>
+                        <div class="py-1"><button type="button" class="btn btn-sm btn-block btn-outline-info">Chat</button></div>
+                            </div>
+                            <div class="col-lg-8">
+                                <h4 class="card-title text-black m-0">@doctor.Fullname</h4>
+                                <h5 class="card-text m-0 pl-2">
+                                    @doctor.Specialization
+                                </h5>
+                                @{
+                                    var ex = new List<int?>();
+                                    foreach (VMViewFindDoctor year in Model)
+                                    {
+                                        if (year.DoctorId == doctor.DoctorId)
+                                        {
+                                            ex.Add(year.Experience);                                           
+                                        }                                    
+                                            ViewBag.Experience = ex.Max<int?>();
+                                    }
+                                }
+                        <h5 class="font-weight-lighter m-0 pl-2">@ViewBag.Experience tahun pengalaman</h5>
+                                <h6 class="card-text text-black pl-4 pt-1">
+                                    @foreach (VMViewFindDoctor medical in Model.DistinctBy(p => p.MedicalFacilityId))
+                                    {
+                                        if (medical.DoctorId == doctor.DoctorId && medical.EndDate == null)
+                                        {
+                                    <div class="font-weight-lighter"><i class="ti-location-pin"></i>@medical.MedicalFacilityName</div>
+                                        }
+                                    }
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-lg-4">                                
+                                <div class="py-1"><button type="button" class="btn btn-sm btn-block btn-info">Buat Janji</button></div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="py-1">
+                            <a asp-action="detail" asp-controller="Doctor" asp-route-id="@doctor.DoctorId"><button type="button" class="btn btn-sm btn-block btn-outline-info">Lihat detail dokter</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            }
+        </div>
+    @*</div>
+
+</div>*@
+
+@if (ViewBag.Message != null)
+{
+<div class="card">
+    <div class="card-body text-center">
+        <div class="h2">@ViewBag.Message</div>
+    </div>
+</div>    
+}
+<script>
+    $("#findAgain").click(function (){        
+        $("#myModalBody").load("./FindDoctor?filterDoctor=@ViewBag.Name&filterTreatmentId=@ViewBag.TreatId&filterLocationId=@ViewBag.LocId&filterSpecialization=@ViewBag.Spez")
+        $("#myModal").modal("show");    
+    })
+
+</script>

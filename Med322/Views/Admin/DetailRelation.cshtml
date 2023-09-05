@@ -1,0 +1,31 @@
+﻿@using Med322.ViewModels;
+@model VMTblMCustomerRelation
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-header h3">@Model.Name Details</div>
+    <div class="card-body">
+        <div class="row m-2">
+            <div class="col-2 bg-light">NAME</div>
+            <div class="col">@Model.Name</div>
+        </div>
+        <hr />
+        <div class="row m-2">
+            <div class="col-2 bg-light">Created by</div>
+            <div class="col-4">@Model.CreatedBy</div>
+            <div class="col-2 bg-light">Modified by</div>
+            <div class="col-4">@Model.ModifiedBy</div>
+        </div>
+        <div class="row m-2">
+            <div class="col-2 bg-light">Create date</div>
+            <div class="col-4">@Model.CreatedOn.ToString("dd-MMM-yyyy HH:mm:ss")</div>
+            <div class="col-2 bg-light">Modified date</div>
+            <div class="col-4">@Model.ModifiedOn?.ToString("dd-MMM-yyyy HH:mm:ss")</div>
+        </div>
+    </div>
+</div>

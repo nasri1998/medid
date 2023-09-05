@@ -1,0 +1,255 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>
+    .bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form {
+        font-family: Arial, Helvetica, sans-serif;
+        color: black
+    }
+
+        .bootstrap-iso form button, .bootstrap-iso form button:hover {
+            color: white !important;
+        }
+
+    .asteriskField {
+        color: red;
+    }</style>
+
+<form id="frmNewPatient" method="post" asp-action="Add">
+    <input type="hidden" name="CreatedBy" value="@ViewBag.BiodataId" />
+    <input type="hidden" name="ParentBioId" value="@ViewBag.BiodataId" />
+    <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+
+    <div class="card">
+        <div class="card-header h3">Insert New Patient @ViewBag.UserId</div>
+        <div class="card-body">
+            <div class="form-group ">
+                <label class="control-label " for="name">
+                    Name
+                </label>
+                <input class="form-control" type="text" id="Fullname" name="Fullname" />
+            </div>
+                    
+            <div class="form-group ">
+                <label class="control-label " for="date">
+                    Date
+                </label>
+                <input class="form-control" type="date" id="Dob" name="Dob" />
+            </div>
+            
+            <div class="form-group" id="div_radio">
+                <label class="control-label requiredField" for="radio">
+                    Gender
+                    <span class="asteriskField">
+                        *
+                    </span>
+                </label>
+                <div class="">
+                    <label class="radio-inline">
+                        <input type="radio" name="Gender" id="GenderL" value="L" />
+                        Man
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="Gender" id="GenderP" value="P" />
+                        Woman
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label requiredField" for="select">
+                    Blood Group
+                    <span class="asteriskField">
+                        *
+                    </span>
+                </label>
+                <select class="select form-control" id="BloodGroupId" name="BloodGroupId">
+                    <option value="">
+                        -- Click Here--
+                    </option>
+                    @foreach (VMTblMBloodGroup data in ViewBag.BloodGroup)
+                    {
+                        <option value="@data.Id">@data.Code</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" id="div_radio1">
+                <label class="control-label " for="radio1">
+                    Rhesus Type
+                </label>
+                <div class="">
+                    <label class="radio-inline">
+                        <input name="radio1" type="radio" name="RhesusType" id="RhPlus" value="Rh+" />
+                        Rh+
+                    </label>
+                    <label class="radio-inline">
+                        <input name="radio1" type="radio" name="RhesusType" id="RhMinus" value="Rh-" />
+                        Rh-
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="Height" class="form-label">Height</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" id="Height" name="Height" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="Weight" class="form-label">Weight</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" id="Weight" name="Weight" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="control-label requiredField" for="select1">
+                    Relation
+                    <span class="asteriskField">
+                        *
+                    </span>
+                </label>
+                <select class="select form-control" id="CustomerRelationId" name="CustomerRelationId">
+                    <option value="">
+                        --Click Here-
+                    </option>
+                    @foreach (VMTblMCustomerRelation data in ViewBag.Relation)
+                    {
+                        <option value="@data.Id">@data.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <div>
+            <button type="submit" class="btn btn-sm btn-success"><i class="ti-save"></i> Save</button>
+            <button type="button" id="btnCancel" class="btn btn-sm btn-warning"><i class="ti-close"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+
+    $.validator.addMethod("maxDate", function (value, element) {
+    var maxDate = new Date();
+    var inputDate = new Date(value);
+    return inputDate <= maxDate;
+}, "Tanggal harus kurang dari atau sama dengan tanggal sekarang.");
+
+    $("#frmNewPatient").validate({
+        rules: {
+            Fullname: {
+                minlength: 3,
+                maxlength: 50,
+                required: true
+            },
+            Dob: {
+                required: true,
+                date: true,
+                maxDate: true // Menggunakan aturan maxDate yang baru kita definisikan
+            },
+            Gender:{
+                    required: true
+            },
+            CustomerRelationId: {
+                required: true
+            },
+        },
+        errorClass: "text-danger"
+    });
+
+    //$("#frmNewPatient").submit(function (event) {
+    //    if ($("#frmNewPatient").valid()) {
+            
+    //        //disable the default form submission
+    //        event.preventDefault();
+
+    //        //grab all form data
+    //        var formData = new FormData($(this)[0]);
+    //        if (confirm("New Data will be submit...")) {
+    //            debugger;
+    //            $.ajax({
+    //                url: '/PatientDetail/Add/',
+    //                type: 'POST',
+    //                data: formData,
+    //                datatype: "json",
+    //                //async: false,
+    //                //cache: false,
+    //                contentType: false,
+    //                processData: false,
+    //                success: function (apiResponse) {
+    //                    if (apiResponse.success) {
+    //                        location.reload();
+    //                    }
+    //                    else {
+    //                        alert(apiResponse.message)
+    //                    }
+    //                },
+    //                error: function (errResponse) {
+    //                    alert("Submit Failed");
+    //                }
+    //            });
+    //        }
+    //    }
+
+    //    return false;
+    //});
+
+    $(document).ready(function () {
+        // Validasi formulir menggunakan jQuery Validate
+        $("#frmNewPatient").validate();
+
+        // Mengirimkan formulir melalui Ajax saat disubmit
+        $("#frmNewPatient").submit(function (event) {
+            event.preventDefault(); // Mencegah pengiriman formulir default
+            
+            if ($("#frmNewPatient").valid()) {
+                // Mengambil data formulir
+                var formData = new FormData($(this)[0]);
+
+                // Mengirim data melalui Ajax
+                $.ajax({
+                    url: '/PatientDetail/Add/', // Ubah sesuai dengan URL endpoint Add di Controller Anda
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Tidak memproses data secara otomatis
+                    contentType: false, // Tidak mengatur tipe konten secara otomatis
+                    success: function (apiResponse) {
+                        if (apiResponse.success) {
+                            // Redirect ke halaman yang sesuai setelah berhasil menambahkan data
+                            window.location.href = '@Url.Action("Index")'; // Ubah sesuai dengan URL yang benar
+                        } else {
+                            // Tampilkan pesan kesalahan jika ada
+                            alert(apiResponse.message);
+                        }
+                    },
+                    error: function (errResponse) {
+                        alert("Submit Failed");
+                    }
+                });
+            }
+        });
+    });
+</script>

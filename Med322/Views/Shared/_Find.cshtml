@@ -1,0 +1,60 @@
+﻿@using Med322.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<form id="EditSpecialization" data-doctorid="@Model.Id" method="post" asp-controller="Doctor" asp-action="specialization">
+    <input type="hidden" id="doctor" name="Id" value="@Model.Id"></input>
+    <input type="hidden" name="ModifiedBy" value="@Model.Id"></input>
+    <div class="card">
+        <div class="card-header h3">Find Doctor</div>
+        <div class="card-body">
+            <div class="row">
+                <label class="form-label">Lokasi</label>
+                @*<input class="form-control" type="text" name="CategoryId"></input>*@
+                <select class="form-control" name="Str">
+                    <option value="">--Select Category--</option>
+                    @foreach (VMMSpecialization specialization in ViewBag.Specialization)
+                    {
+                            <option value="@specialization.Name">@specialization.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="row">
+                <label class="form-label">Nama Dokter</label>
+                <input class="form-control" type="text" name=""></input>                
+            </div>
+            <div class="row">
+                <label class="form-label">Spesialisasi*</label>
+                @*<input class="form-control" type="text" name="CategoryId"></input>*@
+                <select class="form-control" name="Str">
+                    <option value="">--Select Category--</option>
+                    @foreach (VMMSpecialization specialization in ViewBag.Specialization)
+                    {
+                            <option value="@specialization.Name">@specialization.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="row">
+                <label class="form-label">Tindakan Medis</label>
+                @*<input class="form-control" type="text" name="CategoryId"></input>*@
+                <select class="form-control" name="Str">
+                    <option value="">--Select Category--</option>
+                    @foreach (VMMSpecialization specialization in ViewBag.Specialization)
+                    {
+                            <option value="@specialization.Name">@specialization.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <button type="submit" class="btn btn-info float-end"><i class="ti-search"></i> Cari</button>
+            </div>
+        </div>
+    </div>
+</form>

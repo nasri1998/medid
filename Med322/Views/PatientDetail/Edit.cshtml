@@ -1,0 +1,238 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model VMPatientDetail
+
+<form id="frmEditPatient" method="post" asp-action="Edit" asp-controller="PatientDetail">
+    <input type="hidden" name="ModifiedBy" value="@Model.UserId" />
+    <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+    <input type="hidden" name="BiodataId" value="@Model.BiodataId" />
+    <input type="hidden" name="CustomerMemberId" value="@Model.CustomerMemberId" />
+    <input type="hidden" name="ParentBioId" value="@Model.ParentBioId" />
+
+    <div class="card">
+        <div class="card-header h3">update Patient @Model.Fullname</div>
+        <div class="card-body">
+            <div class="form-group ">
+                <label class="control-label " for="name">
+                    Name
+                </label>
+                <input class="form-control" type="text" id="Fullname" name="Fullname" value="@Model.Fullname" />
+            </div>
+            
+            <div class="form-group ">
+                <label class="control-label " for="date">
+                    Date Of Birth
+                </label>
+                <input class="form-control" type="date" name="Dob" value="@Model.Dob?.ToString("yyyy-MM-dd")" />
+            </div>
+
+                <div class="form-group" id="div_radio">
+                    <label class="control-label requiredField" for="radio">
+                        Gender
+                        <span class="asteriskField">
+                            *
+                        </span>
+                    </label>
+                    <div class="">
+                        @if (Model.Gender == "L")
+                        {
+                            <label>
+                                <input type="radio" name="Gender" value="L" checked /> Laki-laki
+                            </label>
+                            <label>
+                                <input type="radio" name="Gender" value="P" /> Perempuan
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                <input type="radio" name="Gender" value="L" /> Laki-laki
+                            </label>
+                            <label>
+                                <input type="radio" name="Gender" value="P" checked /> Perempuan
+                            </label>
+                        }
+                    </div>
+                </div>
+
+            <div class="form-group ">
+                <label class="control-label requiredField" for="select">
+                    Blood Group
+                    <span class="asteriskField">
+                        *
+                    </span>
+                </label>
+                <select class="select form-control" id="BloodGroupId" name="BloodGroupId">
+                    <option value="">
+                        -- Click Here--
+                    </option>
+                    @foreach (VMTblMBloodGroup data in ViewBag.BloodGroup)
+                    {
+                        if (data.Id == Model.BloodGroupId)
+                        {
+                            <option value="@data.Id" selected>@data.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@data.Id">@data.Code</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" id="div_radio1">
+                <label class="control-label " for="radio1">
+                    Rhesus Type
+                </label>
+                <div class="">
+                    @if (Model.RhesusType == "Rh+")
+                    {
+                        <label>
+                            <input type="radio" name="RhesusType" value="Rh+" checked /> Rh+
+                        </label>
+                        <label>
+                            <input type="radio" name="RhesusType" value="Rh-" /> Rh-
+                        </label>
+                    }
+                    else
+                    {
+                        <label>
+                            <input type="radio" name="RhesusType" value="Rh+" /> Rh+
+                        </label>
+                        <label>
+                            <input type="radio" name="RhesusType" value="Rh-" checked /> Rh-
+                        </label>
+                    }
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="Height" class="form-label">Height</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" id="Height" name="Height" value="@Model.Height"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="Weight" class="form-label">Weight</label>
+                    <div class="input-group">
+                        <input class="form-control" type="number" id="Weight" name="Weight" value="@Model.Weight"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="form-group ">
+                <label class="control-label requiredField" for="select1">
+                    Relation
+                    <span class="asteriskField">
+                        *
+                    </span>
+                </label>
+                <select class="select form-control" id="CustomerRelationId" name="CustomerRelationId">
+                    <option value="">
+                        --Click Here-
+                    </option>
+                    @foreach (VMTblMCustomerRelation data in ViewBag.Relation)
+                    {
+                        if (data.Id == Model.CustomerRelationId)
+                        {
+                            <option value="@data.Id" selected>@data.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@data.Id">@data.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                &nbsp;
+                <div>
+            <button type="submit" class="btn btn-sm btn-success"><i class="ti-save"></i> Save</button>
+            <button type="button" id="btnCancel" class="btn btn-sm btn-warning"><i class="ti-close"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $("#btnCancel").click(function () {
+        $("#myModal").modal("hide")
+    })
+
+    $.validator.addMethod("maxDate", function (value, element) {
+    var maxDate = new Date();
+    var inputDate = new Date(value);
+    return inputDate <= maxDate;
+}, "Tanggal harus kurang dari atau sama dengan tanggal sekarang.");
+
+    $("#frmEditPatient").validate({
+        rules: {
+            Fullname: {
+                minlength: 3,
+                maxlength: 50,
+                required: true
+            },
+            Dob: {
+                required: true,
+                date: true,
+                maxDate: true // Menggunakan aturan maxDate yang baru kita definisikan
+            },
+            Gender: {
+                required: true
+            },
+            CustomerRelationId: {
+                required: true
+            },
+        },
+        errorClass: "text-danger"
+    });
+
+    $(document).ready(function () {
+        // Validasi formulir menggunakan jQuery Validate
+        $("#frmEditPatient").validate();
+
+        // Mengirimkan formulir melalui Ajax saat disubmit
+        $("#frmEditPatient").submit(function (event) {
+            event.preventDefault(); // Mencegah pengiriman formulir default
+
+            if ($("#frmEditPatient").valid()) {
+                // Mengambil data formulir
+                var formData = new FormData($(this)[0]);
+
+                // Mengirim data melalui Ajax
+                $.ajax({
+                    url: '/PatientDetail/Edit/', // Ubah sesuai dengan URL endpoint Add di Controller Anda
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Tidak memproses data secara otomatis
+                    contentType: false, // Tidak mengatur tipe konten secara otomatis
+                    success: function (apiResponse) {
+                        if (apiResponse.success) {
+                            // Redirect ke halaman yang sesuai setelah berhasil menambahkan data
+                            window.location.href = '@Url.Action("Index")'; // Ubah sesuai dengan URL yang benar
+                        } else {
+                            // Tampilkan pesan kesalahan jika ada
+                            alert(apiResponse.message);
+                        }
+                    },
+                    error: function (errResponse) {
+                        alert("Submit Failed");
+                    }
+                });
+            }
+        });
+    });
+</script>
